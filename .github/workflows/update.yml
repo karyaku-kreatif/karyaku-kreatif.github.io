@@ -5,6 +5,9 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -34,9 +37,8 @@ jobs:
               headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
               response = requests.get(url, headers=headers)
               
-              # Cari semua ID aplikasi dari halaman developer
               app_ids = re.findall(r'/store/apps/details\?id=([a-zA-Z0-9_.]+)', response.text)
-              app_ids = list(set(app_ids)) # Buat unique agar tidak duplikat
+              app_ids = list(set(app_ids))
               
               apps = []
               for aid in app_ids:
