@@ -17,34 +17,48 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Scraper Library
-        run: pip install google-play-scraper
+      - name: Install Dependencies
+        run: pip install requests beautifulsoup4 google-play-scraper
 
       - name: Run Scraper Script
         run: |
           python3 - << 'EOF'
-          from google_play_scraper import developer
+          import requests
+          from bs4 import BeautifulSoup
+          import re
           import json
+          from google_play_scraper import app
 
           try:
-              result = developer('7457413081606165342', lang='id', country='id')
+              url = "https://play.google.com/store/apps/dev?id=7457413081606165342"
+              headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+              response = requests.get(url, headers=headers)
+              
+              # Cari semua ID aplikasi dari halaman developer
+              app_ids = re.findall(r'/store/apps/details\?id=([a-zA-Z0-9_.]+)', response.text)
+              app_ids = list(set(app_ids)) # Buat unique agar tidak duplikat
+              
               apps = []
-              for app in result:
-                  apps.append({
-                      'appId': app.get('appId'),
-                      'title': app.get('title'),
-                      'icon': app.get('icon'),
-                      'summary': app.get('summary'),
-                      'scoreText': app.get('scoreText'),
-                      'installs': app.get('installs'),
-                      'url': f"https://play.google.com/store/apps/details?id={app.get('appId')}"
-                  })
+              for aid in app_ids:
+                  try:
+                      details = app(aid, lang='id', country='id')
+                      apps.append({
+                          'appId': details.get('appId'),
+                          'title': details.get('title'),
+                          'icon': details.get('icon'),
+                          'summary': details.get('summary'),
+                          'scoreText': details.get('scoreText'),
+                          'installs': details.get('installs'),
+                          'url': f"https://play.google.com/store/apps/details?id={details.get('appId')}"
+                      })
+                  except Exception as err:
+                      print(f"Gagal mengambil detail untuk {aid}: {err}")
 
               with open('apps.json', 'w', encoding='utf-8') as f:
                   json.dump(apps, f, ensure_ascii=False, indent=4)
               print(f"Berhasil mengambil {len(apps)} aplikasi.")
           except Exception as e:
-              print(f"Terjadi kesalahan: {e}")
+              print(f"Terjadi kesalahan utama: {e}")
               exit(1)
           EOF
 
