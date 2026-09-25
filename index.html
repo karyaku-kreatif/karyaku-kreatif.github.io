@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="dark">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,40 +14,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
+        .mesh-gradient {
+            background-image: 
+                radial-gradient(at 10% 20%, rgba(37, 99, 235, 0.15) 0px, transparent 50%),
+                radial-gradient(at 90% 10%, rgba(245, 158, 11, 0.1) 0px, transparent 50%),
+                radial-gradient(at 50% 90%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-blue-500 selection:text-white">
-
-    <!-- Background Glow Effects -->
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-blue-600/10 blur-[120px] pointer-events-none rounded-full"></div>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col mesh-gradient selection:bg-blue-500 selection:text-white">
 
     <!-- Main Container -->
-    <div class="container mx-auto px-4 py-12 max-w-6xl flex-grow relative z-10">
+    <div class="container mx-auto px-4 py-16 max-w-6xl flex-grow relative z-10">
         
         <!-- Header Section -->
         <header class="text-center mb-14">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-white">
-                Daftar <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Aplikasi Kami</span>
+            <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 via-amber-500/10 to-emerald-500/10 border border-slate-800 text-slate-300 text-xs font-medium mb-6 shadow-sm">
+                <img src="unnamed.webp" alt="Logo" class="w-5 h-5 rounded-full object-cover">
+                <span>Karyaku Kreatif Official</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight text-white">
+                Daftar <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-amber-400">Aplikasi Kami</span>
             </h1>
             <p class="text-slate-400 max-w-xl mx-auto text-sm md:text-base leading-relaxed">
-                Berikut adalah daftar aplikasi yang kami kembangkan dan tersedia di Google Play Store.
+                Jelajahi berbagai aplikasi menarik dan bermanfaat yang kami kembangkan untuk Anda di Google Play Store.
             </p>
-            <div class="mt-6 flex justify-center gap-4">
+            <div class="mt-8 flex justify-center gap-4">
                 <a href="https://play.google.com/store/apps/dev?id=7457413081606165342" target="_blank" 
-                   class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-xl transition shadow-lg shadow-blue-600/25">
-                    <i class="fa-brands fa-google-play"></i> Kunjungi Play Store
+                   class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-sm font-semibold rounded-2xl transition-all duration-300 shadow-lg shadow-blue-600/30 hover:scale-105">
+                    <i class="fa-brands fa-google-play"></i> Buka Play Store Developer
                 </a>
             </div>
         </header>
 
         <!-- Search Bar Section -->
-        <div class="max-w-md mx-auto mb-12">
-            <div class="relative">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+        <div class="max-w-md mx-auto mb-14">
+            <div class="relative group">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 group-focus-within:text-blue-400 transition">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </span>
                 <input type="text" id="searchInput" placeholder="Cari nama aplikasi..." 
-                       class="w-full pl-11 pr-4 py-3.5 bg-slate-900/80 border border-slate-800 rounded-2xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-white placeholder-slate-500 text-sm shadow-inner transition backdrop-blur-md">
+                       class="w-full pl-11 pr-4 py-4 bg-slate-900/60 border border-slate-800/80 rounded-2xl focus:outline-none focus:border-blue-500/80 focus:ring-2 focus:ring-blue-500/20 text-white placeholder-slate-500 text-sm shadow-xl transition backdrop-blur-xl">
             </div>
         </div>
 
@@ -55,18 +62,21 @@
         <div id="appGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <!-- Loading State -->
             <div class="col-span-full text-center text-slate-500 py-16">
-                <i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2 text-blue-500"></i>
-                <p>Memuat daftar aplikasi...</p>
+                <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-3 text-blue-500"></i>
+                <p class="text-sm">Memuat daftar aplikasi...</p>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-900/80 py-8 text-center text-slate-500 text-xs relative z-10 space-y-3">
-        <div>
-            <a href="https://karyaku-kreatif.github.io/privacy-policy/" class="text-slate-400 hover:text-blue-400 transition underline font-medium">Privacy Policy</a>
+    <footer class="border-t border-slate-900 bg-slate-950/80 backdrop-blur-md py-8 text-center text-slate-400 text-xs relative z-10">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>&copy; <span id="year"></span> Karyaku Kreatif. All rights reserved.</p>
+            <div class="flex items-center gap-6">
+                <a href="https://karyaku-kreatif.github.io/privacy-policy/" class="hover:text-blue-400 transition font-medium">Privacy Policy</a>
+                <a href="https://play.google.com/store/apps/dev?id=7457413081606165342" target="_blank" class="hover:text-blue-400 transition font-medium">Google Play</a>
+            </div>
         </div>
-        <p>&copy; <span id="year"></span> Karyaku Kreatif. All rights reserved.</p>
     </footer>
 
     <!-- JavaScript -->
@@ -84,7 +94,7 @@
                 document.getElementById('appGrid').innerHTML = `
                     <div class="col-span-full text-center text-red-400 py-12 bg-red-950/20 border border-red-900/30 rounded-2xl">
                         <i class="fa-solid fa-triangle-exclamation text-2xl mb-2"></i>
-                        <p>Gagal memuat daftar aplikasi. Pastikan file apps.json tersedia.</p>
+                        <p class="text-sm">Gagal memuat daftar aplikasi. Pastikan file apps.json tersedia.</p>
                     </div>`;
             }
         }
@@ -96,22 +106,22 @@
             if (apps.length === 0) {
                 grid.innerHTML = `
                     <div class="col-span-full text-center text-slate-500 py-16 bg-slate-900/40 border border-slate-800/60 rounded-2xl">
-                        <i class="fa-regular fa-folder-open text-3xl mb-2 text-slate-600"></i>
-                        <p>Tidak ada aplikasi yang ditemukan.</p>
+                        <i class="fa-regular fa-folder-open text-3xl mb-3 text-slate-600"></i>
+                        <p class="text-sm">Tidak ada aplikasi yang ditemukan.</p>
                     </div>`;
                 return;
             }
 
             apps.forEach(app => {
                 const card = `
-                    <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 flex flex-col justify-between hover:border-blue-500/50 hover:bg-slate-900 transition-all duration-300 shadow-xl group backdrop-blur-sm">
+                    <div class="bg-gradient-to-b from-slate-900/80 to-slate-900/40 border border-slate-800/80 rounded-3xl p-6 flex flex-col justify-between hover:border-blue-500/40 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 group backdrop-blur-xl">
                         <div>
                             <div class="flex items-start space-x-4 mb-4">
-                                <img src="${app.icon}" alt="${app.title}" class="w-16 h-16 rounded-2xl object-cover shadow-md group-hover:scale-105 transition duration-300 flex-shrink-0 bg-slate-800">
+                                <img src="${app.icon}" alt="${app.title}" class="w-16 h-16 rounded-2xl object-cover shadow-lg group-hover:scale-105 transition duration-300 flex-shrink-0 bg-slate-800 border border-slate-700/50">
                                 <div class="min-w-0 flex-1">
                                     <h2 class="font-bold text-base text-white truncate group-hover:text-blue-400 transition">${app.title}</h2>
                                     <div class="flex items-center gap-2 mt-1.5 flex-wrap">
-                                        <span class="inline-flex items-center gap-1 text-xs font-medium text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-md">
+                                        <span class="inline-flex items-center gap-1 text-xs font-semibold text-amber-400 bg-amber-400/10 border border-amber-400/20 px-2.5 py-0.5 rounded-lg">
                                             <i class="fa-solid fa-star text-[10px]"></i> ${app.scoreText || 'N/A'}
                                         </span>
                                         <span class="text-xs text-slate-400 truncate">${app.installs || ''}</span>
@@ -121,7 +131,7 @@
                             <p class="text-xs text-slate-400 line-clamp-3 mb-6 leading-relaxed">${app.summary || 'Tidak ada deskripsi tersedia.'}</p>
                         </div>
                         <a href="${app.url}" target="_blank" 
-                           class="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white text-xs font-semibold rounded-xl border border-blue-500/20 hover:border-transparent transition-all duration-300 shadow-sm">
+                           class="w-full flex items-center justify-center gap-2 py-3 px-4 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white text-xs font-semibold rounded-2xl border border-blue-500/20 hover:border-transparent transition-all duration-300 shadow-sm">
                             <i class="fa-brands fa-google-play"></i> Install Aplikasi
                         </a>
                     </div>
