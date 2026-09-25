@@ -1,0 +1,52 @@
+name: Auto Update Play Store Apps
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Berjalan otomatis setiap hari sekali
+  workflow_dispatch: # Bisa dijalankan manual dari tab Actions GitHub
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Scraper Library
+        run: pip install google-play-scraper
+
+      - name: Run Scraper Script
+        run: |
+          python -c "
+          from google_play_scraper import developer
+          import json
+
+          result = developer('7457413081606165342', lang='id', country='id')
+          
+          apps = []
+          for app in result:
+              apps.append({
+                  'appId': app.get('appId'),
+                  'title': app.get('title'),
+                  'icon': app.get('icon'),
+                  'summary': app.get('summary'),
+                  'scoreText': app.get('scoreText'),
+                  'installs': app.get('installs'),
+                  'url': f'https://play.google.com/store/apps/details?id={app.get(\"appId\")}'
+              })
+
+          with open('apps.json', 'w', encoding='utf-8') as f:
+              json.dump(apps, f, ensure_ascii=False, indent=4)
+          "
+
+      - name: Commit and Push changes if any new app
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add apps.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update apps list" && git push)
