@@ -1,11 +1,20 @@
 [
     {
+        "appId": "com.KaryakuKreatif.KuisFisika",
+        "title": "Kuis Fisika",
+        "icon": "https://play-lh.googleusercontent.com/5OMmiUbhutszbtV3AtWB0KoghYJouHpE8d_41BB41wFxteMU7wj7QxO0Cceje3cjmvDZcQjTLQJ-U5Tvbndg",
+        "summary": "Uji pemahaman hukum alam dan sainsmu lewat Kuis Fisika yang seru!",
+        "scoreText": null,
+        "installs": "0+",
+        "url": "https://play.google.com/store/apps/details?id=com.KaryakuKreatif.KuisFisika"
+    },
+    {
         "appId": "com.KaryakuKreatif.KuisMatematika",
         "title": "Kuis Matematika",
         "icon": "https://play-lh.googleusercontent.com/T4gaeNNCGYCVG64jWK2CCNdvprK5NulyvbbDerF2wrLT8xNNj65rZ2eX6ntJIms6DgrsLJB3YOOpLJ5o1mWWO80",
         "summary": "Latih kemampuan berhitung dan asah otakmu lewat Kuis Matematika yang seru!",
         "scoreText": null,
-        "installs": "0+",
+        "installs": "1+",
         "url": "https://play.google.com/store/apps/details?id=com.KaryakuKreatif.KuisMatematika"
     },
     {
@@ -16,14 +25,5 @@
         "scoreText": null,
         "installs": "1+",
         "url": "https://play.google.com/store/apps/details?id=com.KaryakuKreatif.KuisPengetahuanUmum"
-    },
-    {
-        "appId": "com.KaryakuKreatif.KuisFisika",
-        "title": "Kuis Fisika",
-        "icon": "https://play-lh.googleusercontent.com/5OMmiUbhutszbtV3AtWB0KoghYJouHpE8d_41BB41wFxteMU7wj7QxO0Cceje3cjmvDZcQjTLQJ-U5Tvbndg",
-        "summary": "Uji pemahaman hukum alam dan sainsmu lewat Kuis Fisika yang seru!",
-        "scoreText": null,
-        "installs": "0+",
-        "url": "https://play.google.com/store/apps/details?id=com.KaryakuKreatif.KuisFisika"
     }
 ]
