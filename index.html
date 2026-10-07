@@ -97,8 +97,8 @@
     <!-- ===== Widget Kalender Melayang (kanan atas) ===== -->
     <button id="kalBtn" type="button" aria-expanded="false" aria-controls="kalBox"
         class="fixed top-5 right-5 z-50 flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 text-white text-sm font-semibold shadow-lg shadow-blue-600/30 transition">
-        <i id="kalIcon" class="fa-regular fa-calendar-days"></i>
-        <span id="kalLabel">Kalender</span>
+        <i id="kalIcon" class="fa-regular fa-clock"></i>
+        <span id="kalLabel" class="tabular-nums">Kalender</span>
     </button>
 
     <div id="kalBox" role="dialog" aria-label="Kalender"
@@ -182,13 +182,20 @@
             const kal = { btn: $('kalBtn'), box: $('kalBox'), frame: $('kalFrame'), icon: $('kalIcon'), label: $('kalLabel') };
             const cua = { btn: $('cuacaBtn'), box: $('cuacaBox'), frame: $('cuacaFrame'), icon: $('cuacaIcon'), label: $('cuacaLabel') };
             let cuacaInfo = { emoji: '🌤️', text: 'Cuaca' };
+            let jamAktif = false;
 
             const isOpen = (w) => !w.box.classList.contains('wg-hidden');
 
+            function jamSekarang() {
+                const d = new Date();
+                const p = (n) => String(n).padStart(2, '0');
+                return p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+            }
+
             function render() {
                 const ko = isOpen(kal);
-                kal.icon.className = ko ? 'fa-solid fa-xmark' : 'fa-regular fa-calendar-days';
-                kal.label.textContent = ko ? 'Tutup' : 'Kalender';
+                kal.icon.className = ko ? 'fa-solid fa-xmark' : 'fa-regular fa-clock';
+                kal.label.textContent = ko ? 'Tutup' : (jamAktif ? jamSekarang() : 'Kalender');
                 kal.btn.setAttribute('aria-expanded', ko);
 
                 const co = isOpen(cua);
@@ -204,6 +211,11 @@
                 if (open) (w === kal ? cua : kal).box.classList.add('wg-hidden'); // satu panel saja yang terbuka
                 render();
             }
+
+            // Perbarui jam di tombol kalender tiap detik
+            // Awalnya tertulis "Kalender", setelah halaman selesai dimuat berganti jadi jam
+            window.addEventListener('load', () => { jamAktif = true; render(); });
+            setInterval(() => { if (jamAktif) render(); }, 1000);
 
             kal.btn.addEventListener('click', () => setOpen(kal, !isOpen(kal)));
             cua.btn.addEventListener('click', () => setOpen(cua, !isOpen(cua)));
