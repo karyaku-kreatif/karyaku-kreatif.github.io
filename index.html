@@ -20,10 +20,12 @@
                 radial-gradient(at 90% 10%, rgba(245, 158, 11, 0.1) 0px, transparent 50%),
                 radial-gradient(at 50% 90%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
         }
-        /* Animasi buka widget kalender */
-        #kalBox { transform-origin: top right; transition: opacity .2s ease, transform .2s ease; }
-        #kalBox.kal-hidden { opacity: 0; transform: scale(.92) translateY(-10px); pointer-events: none; visibility: hidden; }
-        @media (prefers-reduced-motion: reduce) { #kalBox { transition: none; } }
+        /* Panel widget (kalender & cuaca) */
+        .wg-panel { transition: opacity .2s ease, transform .2s ease; }
+        .wg-right { transform-origin: top right; }
+        .wg-left { transform-origin: top left; }
+        .wg-panel.wg-hidden { opacity: 0; transform: scale(.92) translateY(-10px); pointer-events: none; visibility: hidden; }
+        @media (prefers-reduced-motion: reduce) { .wg-panel { transition: none; } }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col mesh-gradient selection:bg-blue-500 selection:text-white">
@@ -79,6 +81,19 @@
         </div>
     </footer>
 
+    <!-- ===== Widget Cuaca (kiri atas) ===== -->
+    <button id="cuacaBtn" type="button" aria-expanded="false" aria-controls="cuacaBox"
+        class="fixed top-5 left-5 z-50 flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-sky-600 to-blue-600 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 text-white text-sm font-semibold shadow-lg shadow-sky-600/30 transition">
+        <span id="cuacaIcon" aria-hidden="true">🌤️</span>
+        <span id="cuacaLabel">Cuaca</span>
+    </button>
+
+    <div id="cuacaBox" role="dialog" aria-label="Cuaca"
+        class="wg-panel wg-left wg-hidden fixed top-20 left-5 z-50 w-[calc(100%-2.5rem)] sm:w-[360px] h-[min(580px,calc(100vh-6rem))] rounded-2xl overflow-hidden border border-slate-700 shadow-2xl shadow-black/50 bg-slate-950">
+        <iframe id="cuacaFrame" data-src="https://karyaku-kreatif.github.io/cuaca/"
+            allow="geolocation" class="w-full h-full border-0" title="Cuaca"></iframe>
+    </div>
+
     <!-- ===== Widget Kalender Melayang (kanan atas) ===== -->
     <button id="kalBtn" type="button" aria-expanded="false" aria-controls="kalBox"
         class="fixed top-5 right-5 z-50 flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 text-white text-sm font-semibold shadow-lg shadow-blue-600/30 transition">
@@ -87,7 +102,7 @@
     </button>
 
     <div id="kalBox" role="dialog" aria-label="Kalender"
-        class="kal-hidden fixed top-20 right-5 z-50 w-[calc(100%-2.5rem)] sm:w-[380px] h-[min(520px,calc(100vh-6rem))] rounded-2xl overflow-hidden border border-slate-700 shadow-2xl shadow-black/50 bg-slate-900">
+        class="wg-panel wg-right wg-hidden fixed top-20 right-5 z-50 w-[calc(100%-2.5rem)] sm:w-[380px] h-[min(520px,calc(100vh-6rem))] rounded-2xl overflow-hidden border border-slate-700 shadow-2xl shadow-black/50 bg-slate-900">
         <iframe id="kalFrame" data-src="https://karyaku-kreatif.github.io/kalender/"
             class="w-full h-full border-0" title="Kalender"></iframe>
     </div>
@@ -161,25 +176,52 @@
 
         loadApps();
 
-        /* ===== Widget Kalender ===== */
+        /* ===== Widget Cuaca & Kalender ===== */
         (function () {
-            const btn   = document.getElementById('kalBtn');
-            const box   = document.getElementById('kalBox');
-            const frame = document.getElementById('kalFrame');
-            const icon  = document.getElementById('kalIcon');
-            const label = document.getElementById('kalLabel');
+            const $ = (id) => document.getElementById(id);
+            const kal = { btn: $('kalBtn'), box: $('kalBox'), frame: $('kalFrame'), icon: $('kalIcon'), label: $('kalLabel') };
+            const cua = { btn: $('cuacaBtn'), box: $('cuacaBox'), frame: $('cuacaFrame'), icon: $('cuacaIcon'), label: $('cuacaLabel') };
+            let cuacaInfo = { emoji: '🌤️', text: 'Cuaca' };
 
-            function setOpen(open) {
-                // Iframe baru dimuat saat pertama kali dibuka (hemat kuota)
-                if (open && !frame.src) frame.src = frame.dataset.src;
-                box.classList.toggle('kal-hidden', !open);
-                btn.setAttribute('aria-expanded', open);
-                icon.className = open ? 'fa-solid fa-xmark' : 'fa-regular fa-calendar-days';
-                label.textContent = open ? 'Tutup' : 'Kalender';
+            const isOpen = (w) => !w.box.classList.contains('wg-hidden');
+
+            function render() {
+                const ko = isOpen(kal);
+                kal.icon.className = ko ? 'fa-solid fa-xmark' : 'fa-regular fa-calendar-days';
+                kal.label.textContent = ko ? 'Tutup' : 'Kalender';
+                kal.btn.setAttribute('aria-expanded', ko);
+
+                const co = isOpen(cua);
+                cua.icon.textContent = co ? '✕' : cuacaInfo.emoji;
+                cua.label.textContent = co ? 'Tutup' : cuacaInfo.text;
+                cua.btn.setAttribute('aria-expanded', co);
             }
 
-            btn.addEventListener('click', () => setOpen(box.classList.contains('kal-hidden')));
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+            function setOpen(w, open) {
+                // Iframe kalender baru dimuat saat pertama kali dibuka
+                if (open && !w.frame.src) w.frame.src = w.frame.dataset.src;
+                w.box.classList.toggle('wg-hidden', !open);
+                if (open) (w === kal ? cua : kal).box.classList.add('wg-hidden'); // satu panel saja yang terbuka
+                render();
+            }
+
+            kal.btn.addEventListener('click', () => setOpen(kal, !isOpen(kal)));
+            cua.btn.addEventListener('click', () => setOpen(cua, !isOpen(cua)));
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') { setOpen(kal, false); setOpen(cua, false); }
+            });
+
+            // Terima ringkasan cuaca dari iframe untuk label tombol (mis. "🌤️ 31°C")
+            window.addEventListener('message', (e) => {
+                if (e.source !== cua.frame.contentWindow) return;
+                const d = e.data;
+                if (!d || d.type !== 'cuaca' || typeof d.temp !== 'number') return;
+                cuacaInfo = { emoji: String(d.emoji || '🌤️').slice(0, 4), text: Math.round(d.temp) + '°C' };
+                render();
+            });
+
+            // Cuaca dimuat otomatis setelah halaman selesai, supaya tombol langsung menampilkan suhu
+            window.addEventListener('load', () => { cua.frame.src = cua.frame.dataset.src; });
         })();
     </script>
 </body>
