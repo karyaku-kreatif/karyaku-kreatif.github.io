@@ -21,8 +21,8 @@
                 radial-gradient(at 50% 90%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
         }
         /* Animasi buka widget kalender */
-        #kalBox { transform-origin: bottom right; transition: opacity .2s ease, transform .2s ease; }
-        #kalBox.kal-hidden { opacity: 0; transform: scale(.92) translateY(10px); pointer-events: none; visibility: hidden; }
+        #kalBox { transform-origin: top right; transition: opacity .2s ease, transform .2s ease; }
+        #kalBox.kal-hidden { opacity: 0; transform: scale(.92) translateY(-10px); pointer-events: none; visibility: hidden; }
         @media (prefers-reduced-motion: reduce) { #kalBox { transition: none; } }
     </style>
 </head>
@@ -79,15 +79,15 @@
         </div>
     </footer>
 
-    <!-- ===== Widget Kalender Melayang ===== -->
+    <!-- ===== Widget Kalender Melayang (kanan atas) ===== -->
     <button id="kalBtn" type="button" aria-expanded="false" aria-controls="kalBox"
-        class="fixed bottom-5 right-5 z-50 flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 text-white text-sm font-semibold shadow-lg shadow-blue-600/30 transition">
+        class="fixed top-5 right-5 z-50 flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 text-white text-sm font-semibold shadow-lg shadow-blue-600/30 transition">
         <i id="kalIcon" class="fa-regular fa-calendar-days"></i>
         <span id="kalLabel">Kalender</span>
     </button>
 
     <div id="kalBox" role="dialog" aria-label="Kalender"
-        class="kal-hidden fixed bottom-20 right-5 z-50 w-[calc(100%-2.5rem)] sm:w-[380px] h-[min(520px,calc(100vh-7rem))] rounded-2xl overflow-hidden border border-slate-700 shadow-2xl shadow-black/50 bg-slate-900">
+        class="kal-hidden fixed top-20 right-5 z-50 w-[calc(100%-2.5rem)] sm:w-[380px] h-[min(520px,calc(100vh-6rem))] rounded-2xl overflow-hidden border border-slate-700 shadow-2xl shadow-black/50 bg-slate-900">
         <iframe id="kalFrame" data-src="https://karyaku-kreatif.github.io/kalender/"
             class="w-full h-full border-0" title="Kalender"></iframe>
     </div>
