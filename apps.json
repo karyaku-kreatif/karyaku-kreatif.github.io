@@ -1,1 +1,56 @@
-[]
+[
+    {
+        "appId": "com.KaryakuKreatif.AIOConverter",
+        "title": "Format Converter",
+        "icon": "https://play-lh.googleusercontent.com/8Yxomb6HH_2p0FBvwvwmJySGxDsv6P_GDlZYUHCjUfHAFtQkNce9lQnDEcTWv5sLryyRlcBtDKzqGFLC7iMReQ",
+        "summary": "Ubah format PDF, gambar, video, audio, dan dokumen langsung dari HP Anda.",
+        "scoreText": null,
+        "installs": "10+",
+        "url": "https://play.google.com/store/apps/details?id=com.KaryakuKreatif.AIOConverter"
+    },
+    {
+        "appId": "com.KaryakuKreatif.CodeScanner",
+        "title": "Code Scanner",
+        "icon": "https://play-lh.googleusercontent.com/8bHU5NT5C5Ukp9E5O97kz58rOolNJKDNXOco4cqDWvie0FEt5C5eu-ztlZvWihhe1mSz1hC1BOmum9JECE6P6Q",
+        "summary": "Pindai QR code & barcode dari kamera atau galeri, plus buat kode sendiri.",
+        "scoreText": null,
+        "installs": "0+",
+        "url": "https://play.google.com/store/apps/details?id=com.KaryakuKreatif.CodeScanner"
+    },
+    {
+        "appId": "com.KaryakuKreatif.FileTransfer",
+        "title": "File Transfer",
+        "icon": "https://play-lh.googleusercontent.com/rhs8N1DR2kqyIg0c-eiN5Euqi036bVBY8ThHp115JlomRa19-n0t4pV_RC-tO1uldgeNmlF_pGpyg1yZZIBGJmw",
+        "summary": "Kirim & terima file antar HP lewat WiFi atau hotspot yang sama, tanpa kuota.",
+        "scoreText": null,
+        "installs": "0+",
+        "url": "https://play.google.com/store/apps/details?id=com.KaryakuKreatif.FileTransfer"
+    },
+    {
+        "appId": "com.KaryakuKreatif.KuisFisika",
+        "title": "Kuis Fisika",
+        "icon": "https://play-lh.googleusercontent.com/5OMmiUbhutszbtV3AtWB0KoghYJouHpE8d_41BB41wFxteMU7wj7QxO0Cceje3cjmvDZcQjTLQJ-U5Tvbndg",
+        "summary": "Uji pemahaman hukum alam dan sainsmu lewat Kuis Fisika yang seru!",
+        "scoreText": null,
+        "installs": "1+",
+        "url": "https://play.google.com/store/apps/details?id=com.KaryakuKreatif.KuisFisika"
+    },
+    {
+        "appId": "com.KaryakuKreatif.KuisMatematika",
+        "title": "Kuis Matematika",
+        "icon": "https://play-lh.googleusercontent.com/T4gaeNNCGYCVG64jWK2CCNdvprK5NulyvbbDerF2wrLT8xNNj65rZ2eX6ntJIms6DgrsLJB3YOOpLJ5o1mWWO80",
+        "summary": "Latih kemampuan berhitung dan asah otakmu lewat Kuis Matematika yang seru!",
+        "scoreText": null,
+        "installs": "1+",
+        "url": "https://play.google.com/store/apps/details?id=com.KaryakuKreatif.KuisMatematika"
+    },
+    {
+        "appId": "com.KaryakuKreatif.KuisPengetahuanUmum",
+        "title": "Kuis Pengetahuan Umum",
+        "icon": "https://play-lh.googleusercontent.com/a9Y_V-mQfxP909ZR7XzV4rTe86ufukyqpylyxkNXneaVWLPL9Q3EthHTNG1Lro4-0ex11wZp7cH3JfyxTnYxt6c",
+        "summary": "Asah wawasan dan otakmu dengan tantangan Kuis Pengetahuan Umum yang seru!",
+        "scoreText": null,
+        "installs": "10+",
+        "url": "https://play.google.com/store/apps/details?id=com.KaryakuKreatif.KuisPengetahuanUmum"
+    }
+]
