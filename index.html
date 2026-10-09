@@ -42,9 +42,10 @@
                 Jelajahi berbagai aplikasi menarik yang kami kembangkan untuk Anda di Google Play Store.
             </p>
             <div class="mt-8 flex justify-center gap-4">
-                <a href="https://play.google.com/store/apps/dev?id=7457413081606165342" target="_blank" 
-                   class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-sm font-semibold rounded-2xl transition-all duration-300 shadow-lg shadow-blue-600/30 hover:scale-105">
-                    <i class="fa-brands fa-google-play"></i> Buka Play Store Developer
+                <a href="https://play.google.com/store/apps/dev?id=7457413081606165342" target="_blank" rel="noopener"
+                   aria-label="Buka Play Store Developer" title="Buka Play Store Developer"
+                   class="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-2xl rounded-2xl transition-all duration-300 shadow-lg shadow-blue-600/30 hover:scale-110">
+                    <i class="fa-brands fa-google-play"></i>
                 </a>
             </div>
         </header>
@@ -114,7 +115,8 @@
 
         async function loadApps() {
             try {
-                const response = await fetch('apps.json');
+                // ?t=... supaya browser tidak memakai cache lama
+                const response = await fetch('apps.json?t=' + Date.now());
                 appsData = await response.json();
                 displayApps(appsData);
             } catch (error) {
@@ -142,21 +144,96 @@
 
             apps.forEach(app => {
                 const card = `
-                    <div class="bg-gradient-to-b from-slate-900/80 to-slate-900/40 border border-slate-800/80 rounded-3xl p-6 flex flex-col justify-between hover:border-blue-500/40 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 group backdrop-blur-xl">
-                        <div>
-                            <div class="flex items-start space-x-4 mb-4">
-                                <img src="${app.icon}" alt="${app.title}" class="w-16 h-16 rounded-2xl object-cover shadow-lg group-hover:scale-105 transition duration-300 flex-shrink-0 bg-slate-800 border border-slate-700/50">
-                                <div class="min-w-0 flex-1">
-                                    <h2 class="font-bold text-base text-white truncate group-hover:text-blue-400 transition">${app.title}</h2>
-                                    <div class="flex items-center gap-2 mt-1.5 flex-wrap">
-                                        <span class="inline-flex items-center gap-1 text-xs font-semibold text-amber-400 bg-amber-400/10 border border-amber-400/20 px-2.5 py-0.5 rounded-lg">
-                                            <i class="fa-solid fa-star text-[10px]"></i> ${app.scoreText || 'N/A'}
-                                        </span>
-                                        <span class="text-xs text-slate-400 truncate">${app.installs || ''}</span>
-                                    </div>
+                    <div class="bg-gradient-to-b from-slate-900/80 to-slate-900/40 border border-slate-800/80 rounded-3xl p-6 hover:border-blue-500/40 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 group backdrop-blur-xl">
+                        <div class="flex items-start space-x-4 mb-4">
+                            <img src="${app.icon}" alt="${app.title}" class="w-16 h-16 rounded-2xl object-cover shadow-lg group-hover:scale-105 transition duration-300 flex-shrink-0 bg-slate-800 border border-slate-700/50">
+                            <div class="min-w-0 flex-1">
+                                <h2 class="font-bold text-base text-white truncate group-hover:text-blue-400 transition">${app.title}</h2>
+                                <div class="flex items-center gap-2 mt-1.5 flex-wrap">
+                                    <span class="inline-flex items-center gap-1 text-xs font-semibold text-amber-400 bg-amber-400/10 border border-amber-400/20 px-2.5 py-0.5 rounded-lg">
+                                        <i class="fa-solid fa-star text-[10px]"></i> ${app.scoreText || 'N/A'}
+                                    </span>
+                                    <span class="text-xs text-slate-400 truncate">${app.installs || ''}</span>
                                 </div>
                             </div>
-                            <p class="text-xs text-slate-400 line-clamp-3 mb-6 leading-relaxed">${app.summary || 'Tidak ada deskripsi tersedia.'}</p>
+                        </div>
+                        <p class="text-xs text-slate-400 line-clamp-3 leading-relaxed">${app.summary || 'Tidak ada deskripsi tersedia.'}</p>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const keyword = e.target.value.toLowerCase();
+            const filtered = appsData.filter(app => app.title.toLowerCase().includes(keyword));
+            displayApps(filtered);
+        });
+
+        loadApps();
+
+        /* ===== Widget Cuaca & Kalender ===== */
+        (function () {
+            const $ = (id) => document.getElementById(id);
+            const kal = { btn: $('kalBtn'), box: $('kalBox'), frame: $('kalFrame'), icon: $('kalIcon'), label: $('kalLabel') };
+            const cua = { btn: $('cuacaBtn'), box: $('cuacaBox'), frame: $('cuacaFrame'), icon: $('cuacaIcon'), label: $('cuacaLabel') };
+            let cuacaInfo = { emoji: '🌤️', text: 'Cuaca' };
+            let jamAktif = false;
+
+            const isOpen = (w) => !w.box.classList.contains('wg-hidden');
+
+            function jamSekarang() {
+                const d = new Date();
+                const p = (n) => String(n).padStart(2, '0');
+                return p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+            }
+
+            function render() {
+                const ko = isOpen(kal);
+                kal.icon.className = ko ? 'fa-solid fa-xmark' : 'fa-regular fa-clock';
+                kal.label.textContent = ko ? 'Tutup' : (jamAktif ? jamSekarang() : 'Kalender');
+                kal.btn.setAttribute('aria-expanded', ko);
+
+                const co = isOpen(cua);
+                cua.icon.textContent = co ? '✕' : cuacaInfo.emoji;
+                cua.label.textContent = co ? 'Tutup' : cuacaInfo.text;
+                cua.btn.setAttribute('aria-expanded', co);
+            }
+
+            function setOpen(w, open) {
+                // Iframe kalender baru dimuat saat pertama kali dibuka
+                if (open && !w.frame.src) w.frame.src = w.frame.dataset.src;
+                w.box.classList.toggle('wg-hidden', !open);
+                if (open) (w === kal ? cua : kal).box.classList.add('wg-hidden'); // satu panel saja yang terbuka
+                render();
+            }
+
+            // Perbarui jam di tombol kalender tiap detik
+            // Awalnya tertulis "Kalender", setelah halaman selesai dimuat berganti jadi jam
+            window.addEventListener('load', () => { jamAktif = true; render(); });
+            setInterval(() => { if (jamAktif) render(); }, 1000);
+
+            kal.btn.addEventListener('click', () => setOpen(kal, !isOpen(kal)));
+            cua.btn.addEventListener('click', () => setOpen(cua, !isOpen(cua)));
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') { setOpen(kal, false); setOpen(cua, false); }
+            });
+
+            // Terima ringkasan cuaca dari iframe untuk label tombol (mis. "🌤️ 31°C")
+            window.addEventListener('message', (e) => {
+                if (e.source !== cua.frame.contentWindow) return;
+                const d = e.data;
+                if (!d || d.type !== 'cuaca' || typeof d.temp !== 'number') return;
+                cuacaInfo = { emoji: String(d.emoji || '🌤️').slice(0, 4), text: Math.round(d.temp) + '°C' };
+                render();
+            });
+
+            // Cuaca dimuat otomatis setelah halaman selesai, supaya tombol langsung menampilkan suhu
+            window.addEventListener('load', () => { cua.frame.src = cua.frame.dataset.src; });
+        })();
+    </script>
+</body>
+</html> || 'Tidak ada deskripsi tersedia.'}</p>
                         </div>
                         <a href="${app.url}" target="_blank" 
                            class="w-full flex items-center justify-center gap-2 py-3 px-4 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white text-xs font-semibold rounded-2xl border border-blue-500/20 hover:border-transparent transition-all duration-300 shadow-sm">
