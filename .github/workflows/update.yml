@@ -2,7 +2,7 @@ name: Auto Update Play Store Apps
 
 on:
   schedule:
-    - cron: '0 4,16 * * *'
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 permissions:
@@ -12,19 +12,69 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
       - name: Install Dependencies
-        run: pip install requests google-play-scraper
+        run: pip install requests beautifulsoup4 google-play-scraper
 
       - name: Run Scraper Script
-        run: python3 scraper.py
+        run: |
+          python3 - << 'EOF'
+          import requests, re, json, time, sys
+          from google_play_scraper import app
 
-      - name: Commit and Push changes
+          url = "https://play.google.com/store/apps/dev?id=7457413081606165342"
+          headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+
+          # Coba sampai 3 kali kalau daftar aplikasi tidak ketemu
+          app_ids = []
+          for attempt in range(1, 4):
+              try:
+                  response = requests.get(url, headers=headers, timeout=30)
+                  app_ids = list(set(re.findall(r'/store/apps/details\?id=([a-zA-Z0-9_.]+)', response.text)))
+              except Exception as e:
+                  print(f"Percobaan {attempt} error: {e}")
+              print(f"Percobaan {attempt}: {len(app_ids)} ID")
+              if app_ids:
+                  break
+              time.sleep(15)
+
+          if not app_ids:
+              print("Daftar aplikasi tidak ditemukan, apps.json TIDAK diubah.")
+              sys.exit(1)
+
+          apps = []
+          for aid in app_ids:
+              try:
+                  details = app(aid, lang='id', country='id')
+                  apps.append({
+                      'appId': details.get('appId'),
+                      'title': details.get('title'),
+                      'icon': details.get('icon'),
+                      'summary': details.get('summary'),
+                      'scoreText': details.get('scoreText'),
+                      'installs': details.get('installs'),
+                      'url': f"https://play.google.com/store/apps/details?id={details.get('appId')}"
+                  })
+              except Exception as err:
+                  print(f"Gagal mengambil detail untuk {aid}: {err}")
+
+          if not apps:
+              print("Detail kosong, apps.json TIDAK diubah.")
+              sys.exit(1)
+
+          with open('apps.json', 'w', encoding='utf-8') as f:
+              json.dump(apps, f, ensure_ascii=False, indent=4)
+          print(f"Berhasil mengambil {len(apps)} aplikasi.")
+          EOF
+
+      - name: Commit and Push changes if any new app
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
