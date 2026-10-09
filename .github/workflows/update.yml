@@ -21,52 +21,52 @@ jobs:
           python-version: '3.10'
 
       - name: Install Dependencies
-        run: pip install requests beautifulsoup4 google-play-scraper
+        run: pip install --upgrade google-play-scraper
 
       - name: Run Scraper Script
         run: |
           python3 - << 'EOF'
-          import requests
-          from bs4 import BeautifulSoup
-          import re
-          import json
-          from google_play_scraper import app
+          import json, sys
+          from google_play_scraper import app, developer
+
+          DEV_ID = "7457413081606165342"
 
           try:
-              url = "https://play.google.com/store/apps/dev?id=7457413081606165342"
-              headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-              response = requests.get(url, headers=headers)
-              
-              app_ids = re.findall(r'/store/apps/details\?id=([a-zA-Z0-9_.]+)', response.text)
-              app_ids = list(set(app_ids))
-              
-              apps = []
-              for aid in app_ids:
-                  try:
-                      details = app(aid, lang='id', country='id')
-                      apps.append({
-                          'appId': details.get('appId'),
-                          'title': details.get('title'),
-                          'icon': details.get('icon'),
-                          'summary': details.get('summary'),
-                          'scoreText': details.get('scoreText'),
-                          'installs': details.get('installs'),
-                          'url': f"https://play.google.com/store/apps/details?id={details.get('appId')}"
-                      })
-                  except Exception as err:
-                      print(f"Gagal mengambil detail untuk {aid}: {err}")
-
-              with open('apps.json', 'w', encoding='utf-8') as f:
-                  json.dump(apps, f, ensure_ascii=False, indent=4)
-              print(f"Berhasil mengambil {len(apps)} aplikasi.")
+              result = developer(DEV_ID, lang='id', country='id', count=100)
           except Exception as e:
-              print(f"Terjadi kesalahan utama: {e}")
-              exit(1)
+              print(f"Gagal ambil daftar developer: {e}")
+              sys.exit(1)
+
+          apps = []
+          for item in result:
+              aid = item.get('appId')
+              try:
+                  d = app(aid, lang='id', country='id')
+                  apps.append({
+                      'appId': d.get('appId'),
+                      'title': d.get('title'),
+                      'icon': d.get('icon'),
+                      'summary': d.get('summary'),
+                      'scoreText': d.get('scoreText'),
+                      'installs': d.get('installs'),
+                      'url': f"https://play.google.com/store/apps/details?id={d.get('appId')}"
+                  })
+              except Exception as err:
+                  print(f"Gagal detail {aid}: {err}")
+
+          # PENTING: jangan timpa file lama kalau hasil kosong
+          if not apps:
+              print("Hasil kosong, apps.json TIDAK diubah.")
+              sys.exit(1)
+
+          with open('apps.json', 'w', encoding='utf-8') as f:
+              json.dump(apps, f, ensure_ascii=False, indent=4)
+          print(f"Berhasil mengambil {len(apps)} aplikasi.")
           EOF
 
-      - name: Commit and Push changes if any new app
+      - name: Commit and Push changes if any
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add apps.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update apps list" && git push)
+          git diff --staged --quiet || (git commit -m "Auto-update apps list" && git push)
