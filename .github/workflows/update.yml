@@ -12,59 +12,19 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
       - name: Install Dependencies
-        run: pip install --upgrade google-play-scraper
+        run: pip install requests google-play-scraper
 
       - name: Run Scraper Script
-        run: |
-          python3 - << 'EOF'
-          import json, sys
-          from google_play_scraper import app, developer
+        run: python3 scraper.py
 
-          DEV_ID = "7457413081606165342"
-
-          try:
-              result = developer(DEV_ID, lang='id', country='id', count=100)
-          except Exception as e:
-              print(f"Gagal ambil daftar developer: {e}")
-              sys.exit(1)
-
-          apps = []
-          for item in result:
-              aid = item.get('appId')
-              try:
-                  d = app(aid, lang='id', country='id')
-                  apps.append({
-                      'appId': d.get('appId'),
-                      'title': d.get('title'),
-                      'icon': d.get('icon'),
-                      'summary': d.get('summary'),
-                      'scoreText': d.get('scoreText'),
-                      'installs': d.get('installs'),
-                      'url': f"https://play.google.com/store/apps/details?id={d.get('appId')}"
-                  })
-              except Exception as err:
-                  print(f"Gagal detail {aid}: {err}")
-
-          # PENTING: jangan timpa file lama kalau hasil kosong
-          if not apps:
-              print("Hasil kosong, apps.json TIDAK diubah.")
-              sys.exit(1)
-
-          with open('apps.json', 'w', encoding='utf-8') as f:
-              json.dump(apps, f, ensure_ascii=False, indent=4)
-          print(f"Berhasil mengambil {len(apps)} aplikasi.")
-          EOF
-
-      - name: Commit and Push changes if any
+      - name: Commit and Push changes
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
