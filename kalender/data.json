@@ -1,0 +1,177 @@
+{
+  "updated": "2026-11-16",
+  "kemenagStarts": {
+    "1448-06": "2026-11-11"
+  },
+  "holidays": {
+    "fixed": [
+      {
+        "m": 1,
+        "d": 1,
+        "name": "Tahun Baru Masehi",
+        "offDay": true
+      },
+      {
+        "m": 3,
+        "d": 8,
+        "name": "Hari Perempuan Internasional",
+        "offDay": false
+      },
+      {
+        "m": 4,
+        "d": 21,
+        "name": "Hari Kartini",
+        "offDay": false
+      },
+      {
+        "m": 5,
+        "d": 1,
+        "name": "Hari Buruh Internasional",
+        "offDay": true
+      },
+      {
+        "m": 5,
+        "d": 2,
+        "name": "Hari Pendidikan Nasional",
+        "offDay": false
+      },
+      {
+        "m": 5,
+        "d": 20,
+        "name": "Hari Kebangkitan Nasional",
+        "offDay": false
+      },
+      {
+        "m": 6,
+        "d": 1,
+        "name": "Hari Lahir Pancasila",
+        "offDay": true
+      },
+      {
+        "m": 7,
+        "d": 23,
+        "name": "Hari Anak Nasional",
+        "offDay": false
+      },
+      {
+        "m": 8,
+        "d": 17,
+        "name": "Hari Kemerdekaan RI",
+        "offDay": true
+      },
+      {
+        "m": 10,
+        "d": 1,
+        "name": "Hari Kesaktian Pancasila",
+        "offDay": false
+      },
+      {
+        "m": 10,
+        "d": 2,
+        "name": "Hari Batik Nasional",
+        "offDay": false
+      },
+      {
+        "m": 10,
+        "d": 28,
+        "name": "Hari Sumpah Pemuda",
+        "offDay": false
+      },
+      {
+        "m": 11,
+        "d": 10,
+        "name": "Hari Pahlawan",
+        "offDay": false
+      },
+      {
+        "m": 11,
+        "d": 12,
+        "name": "Hari Ayah Nasional",
+        "offDay": false
+      },
+      {
+        "m": 11,
+        "d": 25,
+        "name": "Hari Guru Nasional",
+        "offDay": false
+      },
+      {
+        "m": 12,
+        "d": 22,
+        "name": "Hari Ibu",
+        "offDay": false
+      },
+      {
+        "m": 12,
+        "d": 25,
+        "name": "Hari Raya Natal",
+        "offDay": true
+      }
+    ],
+    "years": {
+      "2026": [
+        {
+          "date": "2026-01-16",
+          "name": "Isra Mikraj Nabi Muhammad SAW",
+          "offDay": true
+        },
+        {
+          "date": "2026-02-17",
+          "name": "Tahun Baru Imlek 2577",
+          "offDay": true
+        },
+        {
+          "date": "2026-03-19",
+          "name": "Hari Raya Nyepi",
+          "offDay": true
+        },
+        {
+          "date": "2026-03-21",
+          "name": "Hari Raya Idul Fitri 1447 H",
+          "offDay": true
+        },
+        {
+          "date": "2026-03-22",
+          "name": "Hari Raya Idul Fitri 1447 H",
+          "offDay": true
+        },
+        {
+          "date": "2026-04-03",
+          "name": "Wafat Yesus Kristus",
+          "offDay": true
+        },
+        {
+          "date": "2026-04-05",
+          "name": "Hari Paskah",
+          "offDay": true
+        },
+        {
+          "date": "2026-05-14",
+          "name": "Kenaikan Yesus Kristus",
+          "offDay": true
+        },
+        {
+          "date": "2026-05-27",
+          "name": "Hari Raya Idul Adha 1447 H",
+          "offDay": true
+        },
+        {
+          "date": "2026-05-31",
+          "name": "Hari Raya Waisak 2570",
+          "offDay": true
+        },
+        {
+          "date": "2026-06-16",
+          "name": "Tahun Baru Islam 1448 H",
+          "offDay": true
+        },
+        {
+          "date": "2026-08-25",
+          "name": "Maulid Nabi Muhammad SAW",
+          "offDay": true
+        }
+      ],
+      "2027": []
+    }
+  }
+}
