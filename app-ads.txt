@@ -319,3 +319,34 @@ sharethrough.com, 5791, RESELLER, 060d053dcf45cbf3
 pubmatic.com, 156500, RESELLER, 5d62403b186f2ace
 facebook.com, 1067598713949878, DIRECT, c24b50c115cf4bb4
 facebook.com, 1067598713949878, DIRECT, c3e20eee3f780d68
+triplelift.com, 14900, reseller, 6c33edb13117fd86
+triplelift.com, 14901, reseller, 6c33edb13117fd86
+pinklion.io, 190976892, reseller
+appnexus.com, 12622, reseller
+triplelift.com, 14864, reseller, 6c33edb13117fd86
+insticator.com, e2d3e33c-9911-477a-8ae2-f059870c67c0, reseller, b3511ffcafb23a32
+improvedigital.com, 2975, reseller
+optimanetwork.com, 20001, reseller
+conversantmedia.com, 100772, reseller, 03113cd04947736d
+zetaglobal.net, 551, reseller
+bematterfull.com, 22289765, reseller
+smaato.com, 1100059948, reseller, 07bcf65f187117b4
+appnexus.com, 12690, reseller
+smoot.ai, 100118, reseller
+lijit.com, 497492, reseller, fafdf38b16bf6b2b
+rubiconproject.com, 26324, reseller, 0bfd66d529a55807
+bidmatic.io, b-c0fec, reseller
+smartadserver.com, 4721, reseller
+qntv.io, 10050326, reseller
+shinka.io, 1000061, reseller
+pubx.ai, 45942929018065, reseller
+tredio.io, 357a6fdf7642bf815a88822c447d9dc437168, reseller
+smartadserver.com, 6064, reseller, 060d053dcf45cbf3
+sharethrough.com, 6064, reseller, 060d053dcf45cbf3
+vistarsagency.com, dboqr86objrs73fua1f0, reseller, 8db795910158017c
+triplelift.com, 14885, reseller, 6c33edb13117fd86
+triplelift.com, 14885-eb, reseller, 6c33edb13117fd86
+smaato.com, 1100059345, RESELLER, 07bcf65f187117b4
+playdigo.com, 1965, RESELLER
+start.io, 131192070, RESELLER
+monetrix.ai, 10761, RESELLER
